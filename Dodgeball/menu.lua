@@ -44,6 +44,50 @@ function menu:draw()
     -- Draw help text
     love.graphics.print("Movement: [W] [A] [S] [D] Select: [SPACE]", menu_x + 40, menu_y + menu_height - 30)
 
+    love.graphics.setFont(self.assets.menu)
+    for i, item in ipairs(self.items) do
+        local item_x, item_y = menu_x + 40, menu_y + 50
+
+        if i == self.selected_item then
+            love.graphics.setColor(14 /255, 36 / 255, 48 / 255)
+        else
+            love.graphics.setColor(252 / 255, 58 / 255, 81 / 255)
+        end
+        
+        love.graphics.print(item, item_x, 30 * i + item_y)
+    end
+    love.graphics.setFont(self.assets.default)
+
+end
+
+function menu:keypressed(key)
+    if key == "w" or key == "up" then
+        self.selected_item = self.selected_item - 1
+
+        if self.selected_item < 1 then
+            self.selected_item = #self.items
+        end
+    end
+
+    if key == "s" or key == "down" then
+        self.selected_item = self.selected_item + 1
+
+        if self.selected_item > #self.items then
+            self.selected_item = 1
+        end
+    end
+
+    if key == "space" or key == "return" then
+        if self.selected_item == 1 then
+            game:change_state("play")
+        elseif self.selected_item == 2 then
+            game:change_state("scoreboard")
+        elseif selected_item == 3 then
+            game:change_state("settings")
+        elseif self.selected_item == 4 then
+            love.event.quit(0)
+        end
+    end
 end
 
 return menu
