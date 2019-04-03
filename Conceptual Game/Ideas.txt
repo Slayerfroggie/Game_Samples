@@ -1,0 +1,7 @@
+objectives:
+
+- snake with designed levels that you can complete.
+- standard snake gameplay just with levels that you must navigate or die.
+- level editor?
+- scoreboard is a must (level based scores)
+- 
