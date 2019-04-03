@@ -82,7 +82,7 @@ function menu:keypressed(key)
             game:change_state("play")
         elseif self.selected_item == 2 then
             game:change_state("scoreboard")
-        elseif selected_item == 3 then
+        elseif self.selected_item == 3 then
             game:change_state("settings")
         elseif self.selected_item == 4 then
             love.event.quit(0)
