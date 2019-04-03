@@ -106,7 +106,7 @@ function play:update(dt)
             if self.sound then
                 self.assets.died:play()
             end
-            change_state("scoreboard")
+            game:change_state("scoreboard")
         end
     end
 end
