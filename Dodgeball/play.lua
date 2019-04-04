@@ -72,7 +72,7 @@ function play:update(dt)
     
     while #self.balls < (self.game_time_score / 4) * self.difficulty do
         local ball = {
-            size = love.math.random(30, 100),
+            size = love.math.random(30, 75),
             speed = love.math.random(50, 100),
             x = love.math.random(0, window_width),
             y = -50
