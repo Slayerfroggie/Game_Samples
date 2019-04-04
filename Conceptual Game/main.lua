@@ -9,8 +9,6 @@ game = {
     }
 }
 
-love.window.setTitle("Psycho Python")
-
 function game:link_event(event)
     love[event] = function(...)
         if self.states[self.current_state] ~= nil then
@@ -39,3 +37,5 @@ game:link_event("load")
 game:link_event("draw")
 game:link_event("update")
 game:link_event("keypressed")
+
+-- https://www.colourlovers.com/palette/1692350/Snake_Toy_in_Action
