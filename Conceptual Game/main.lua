@@ -5,8 +5,6 @@ game = {
         play = require("play"),
         settings = require("settings"),
         scoreboard = require("scoreboard")
-        -- if we want settings in the future
-        -- settings = require("settings")
     }
 }
 
