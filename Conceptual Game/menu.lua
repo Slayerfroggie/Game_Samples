@@ -3,7 +3,8 @@ local menu = {
         title = love.graphics.newFont(40),
         menu = love.graphics.newFont(30),
         help_text = love.graphics.newFont(20),
-        default = love.graphics.getFont()
+        default = love.graphics.getFont(),
+        selection_change = love.audio.newSource("select.wav", "static")
     },
     items = {
         "New Game",
@@ -11,8 +12,14 @@ local menu = {
         "Scoreboard",
         "Quit"
     },
+    sound = true,
     selected_item = 1
 }
+
+function menu:toggle_sound()
+    self.sound = not self.sound
+    return self.sound
+end
 
 function menu:entered()
     -- Resetting to first item when menu state entered
@@ -90,6 +97,10 @@ function menu:keypressed(key)
         elseif self.selected_item == 4 then
             love.event.quit(0)
         end
+    end
+
+    if self.sound then
+        self.assets.selection_change:play()
     end
 end
 
