@@ -3,7 +3,8 @@ local settings = {
         title = love.graphics.newFont(30),
         help_text = love.graphics.newFont(20),
         menu = love.graphics.newFont(20),
-        default = love.graphics.getFont()
+        default = love.graphics.getFont(),
+        selection_change = love.audio.newSource("select.wav", "static")
     },
     selected_item = 1,
     settings = {
@@ -11,8 +12,14 @@ local settings = {
         "Difficulty [normal]",
         "Clear scoreboard",
         "Return to menu"
-    }
+    },
+    sound = true
 }
+
+function settings:toggle_sound()
+    self.sound = not self.sound
+    return self.sound
+end
 
 function settings:draw()
     -- Calculate drawable positions
@@ -56,5 +63,10 @@ function settings:draw()
     love.graphics.setFont(self.assets.default)
 
 end
+
+-- sound activator
+-- if self.sound then
+--    self.assets.selection_change:play()
+--end
 
 return settings 
