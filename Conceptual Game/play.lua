@@ -1,14 +1,23 @@
 local play = {
     assests = {
         score = love.graphics.newFont(20),
-        default = love.graphics.getFont(),
-        
+        default = love.graphics.getFont()
+    },
+    pellets = {},
+    player = {
+        x = 0,
+        y = 0,
+        width = 0,
+        height = 0,
+        speed = 0
     },
     difficulty = 2,
-    sound = true
+    sound = true,
+    pellet_score = 0
+    
 }
 function play:toggle_sound()
-    self.sound = not self.sound
+    self.sound = self.sound
     return self.sound
 end
 
