@@ -52,7 +52,7 @@ function menu:draw()
 
     -- Draw help text
     love.graphics.setFont(self.assets.help_text)
-    love.graphics.print("Nagivate: [W] [S] Select: [SPACE]\n\nGame Movement: [W] [A] [S] [D]", menu_x + 40, menu_y + menu_height - 90)
+    love.graphics.print("Nagivate: [W] [S] / [UP] [DOWN] Select: [SPACE] / [ENTER]\n\nGame Movement: [W] [A] [S] [D] / Arrow Keys ", menu_x + 40, menu_y + menu_height - 90)
     love.graphics.setFont(self.assets.default)
 
     -- draw menu text
