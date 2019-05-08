@@ -4,15 +4,16 @@ local settings = {
         help_text = love.graphics.newFont(20),
         menu = love.graphics.newFont(20),
         default = love.graphics.getFont(),
-        selection_change = love.audio.newSource("select.wav", "static")
+        selection_change = love.audio.newSource("selection_changed.wav", "static"),
+        selection_confirmed = love.audio.newSource("selection_confirmed.wav", "static")
     },
-    selected_item = 1,
     settings = {
         "Sound [on]",
         "Difficulty [normal]",
         "Clear scoreboard",
         "Return to menu"
     },
+    selected_item = 1,
     sound = true
 }
 
@@ -64,9 +65,61 @@ function settings:draw()
 
 end
 
--- sound activator
--- if self.sound then
---    self.assets.selection_change:play()
---end
+function settings:keypressed(key)
+    if key == "w" or key == "up" then
+        if self.sound then
+            self.assets.selection_change:play()
+        end
+
+      self.selected_item = self.selected_item - 1
+  
+      if self.selected_item < 1 then
+        self.selected_item = #self.settings
+      end
+    end
+  
+    if key == "s" or key == "down" then
+        if self.sound then
+            self.assets.selection_change:play()
+        end
+
+      self.selected_item = self.selected_item + 1
+  
+      if self.selected_item > #self.settings then
+        self.selected_item = 1
+      end
+    end
+  
+    if key == "return" or key == "space" then
+        if self.sound then
+            self.assets.selection_confirmed:play()
+        end
+
+      if self.selected_item == 1 then
+        if game.states.settings:toggle_sound() then
+          self.settings[1] = "Sound [On]"
+        else 
+          self.settings[1] = "Sound [Off]"
+        end
+      elseif self.selected_item == 2 then
+        local difficulty = game.states.play:toggle_difficulty()
+
+        if difficulty == 1 then
+          self.settings[2] = "Difficulty [Easy]"
+        elseif difficulty == 2 then
+          self.settings[2] = "Difficulty [Normal]"
+        elseif difficulty == 3 then
+          self.settings[2] = "Difficulty [Hard]"
+        end
+      elseif self.selected_item == 3 then
+        game.states.scoreboard:clear_scores()
+      elseif self.selected_item == 4 then
+        game:change_state("menu")
+      end
+    end
+  end
+  
+-- sound methods when disabling sound
+-- game.states.play:toggle_sound() and game.states.menu:toggle_sound() and 
 
 return settings 

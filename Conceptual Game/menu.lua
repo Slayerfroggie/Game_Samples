@@ -4,7 +4,8 @@ local menu = {
         menu = love.graphics.newFont(30),
         help_text = love.graphics.newFont(20),
         default = love.graphics.getFont(),
-        selection_change = love.audio.newSource("select.wav", "static")
+        selection_change = love.audio.newSource("selection_changed.wav", "static"),
+        selection_confirmed = love.audio.newSource("selection_confirmed.wav", "static")
     },
     items = {
         "New Game",
@@ -72,6 +73,10 @@ end
 
 function menu:keypressed(key)
     if key == "w" or key == "up" then
+        if self.sound then
+            self.assets.selection_change:play()
+        end
+
         self.selected_item = self.selected_item - 1
 
         if self.selected_item < 1 then
@@ -80,6 +85,10 @@ function menu:keypressed(key)
     end
 
     if key == "s" or key == "down" then
+        if self.sound then
+            self.assets.selection_change:play()
+        end
+
         self.selected_item = self.selected_item + 1
 
         if self.selected_item > #self.items then
@@ -88,6 +97,10 @@ function menu:keypressed(key)
     end
 
     if key == "space" or key == "return" then
+        if self.sound then
+            self.assets.selection_confirmed:play()
+        end
+        
         if self.selected_item == 1 then
             game:change_state("play")
         elseif self.selected_item == 2 then
@@ -99,9 +112,7 @@ function menu:keypressed(key)
         end
     end
 
-    if self.sound then
-        self.assets.selection_change:play()
-    end
+    
 end
 
 return menu
