@@ -26,13 +26,9 @@ function play:toggle_difficulty()
 end
 
 function play:entered()
-    self.snake_segments = {
-        {x = 3, y = 1},
-        {x = 2, y = 1},
-        {x = 1, y = 1},
-    }
 
     function move_food()
+
         local possible_food_positions = {}
 
         for food_X = 1, self.X_grid_count do
@@ -40,7 +36,7 @@ function play:entered()
                 local possible = true
 
                 for segmentIndex, segment in ipairs(self.snake_segments) do
-                    if foodX == segment.x and food_Y == segment.y then
+                    if food_X == segment.x and food_Y == segment.y then
                         possible = false
                     end
                 end
@@ -54,11 +50,19 @@ function play:entered()
         food_position = possible_food_positions[love.math.random(#possible_food_positions)]
     end
 
-    self.timer = 0
+    function reset()
+        self.snake_segments = {
+            {x = 3, y = 1},
+            {x = 2, y = 1},
+            {x = 1, y = 1},
+        }
+        self.direction_queue = {'right'}
+        snake_alive = true
+        self.timer = 0
+        move_food()
+    end
 
-    self.direction_queue = {"right"}
-
-    move_food()
+    reset()
 end
 
 function play:load()
@@ -82,10 +86,13 @@ function play:draw()
         drawCell(segment.x, segment.y)
     end
 
-    -- Temporary
-    for directionIndex, direction in ipairs(self.direction_queue) do
-        love.graphics.setColor(1, 1, 1)
-        love.graphics.print('directionQueue['..directionIndex..']: '..direction, 15, 15 * directionIndex)
+    for segmentIndex, segment in ipairs(self.snake_segments) do
+        if snake_alive then
+            love.graphics.setColor(.6, 1, .32)
+        else
+            love.graphics.setColor(.5, .5, .5)
+        end
+        drawCell(segment.x, segment.y)
     end
 
     love.graphics.setColor(1, .3, .3)
@@ -94,72 +101,64 @@ end
 
 function play:update(dt)
     self.timer = self.timer + dt
-    local timerLimit = 0.15
 
-    if self.timer >= timerLimit then
-        self.timer = self.timer - timerLimit
-
-        if #self.direction_queue > 1 then
-            table.remove(self.direction_queue, 1)
-        end
-
-        local nextXPosition = self.snake_segments[1].x
-        local nextYPosition = self.snake_segments[1].y
-
-        if self.direction_queue[1] == 'right' then
-            nextXPosition = nextXPosition + 1
-            if nextXPosition > self.X_grid_count then
-                nextXPosition = 1
+    if snake_alive then
+        local timerLimit = 0.15
+        if self.timer >= timerLimit then
+            self.timer = self.timer - timerLimit
+            if #self.direction_queue > 1 then
+                table.remove(self.direction_queue, 1)
             end
-        elseif self.direction_queue[1] == 'left' then
-            nextXPosition = nextXPosition - 1
-            if nextXPosition < 1 then
-                nextXPosition = self.X_grid_count
+
+            local nextXPosition = self.snake_segments[1].x
+            local nextYPosition = self.snake_segments[1].y
+
+            if self.direction_queue[1] == 'right' then
+                nextXPosition = nextXPosition + 1
+                if nextXPosition > self.X_grid_count then
+                    nextXPosition = 1
+                end
+            elseif self.direction_queue[1] == 'left' then
+                nextXPosition = nextXPosition - 1
+                if nextXPosition < 1 then
+                    nextXPosition = self.X_grid_count
+                end
+            elseif self.direction_queue[1] == 'down' then
+                nextYPosition = nextYPosition + 1
+                if nextYPosition > self.Y_grid_count then
+                    nextYPosition = 1
+                end
+            elseif self.direction_queue[1] == 'up' then
+                nextYPosition = nextYPosition - 1
+                if nextYPosition < 1 then
+                    nextYPosition = self.Y_grid_count
+                end
             end
-        elseif self.direction_queue[1] == 'down' then
-            nextYPosition = nextYPosition + 1
-            if nextYPosition > self.Y_grid_count then
-                nextYPosition = 1
-            end
-        elseif self.direction_queue[1] == 'up' then
-            nextYPosition = nextYPosition - 1
-            if nextYPosition < 1 then
-                nextYPosition = self.Y_grid_count
-            end
-        end
 
-        table.insert(self.snake_segments, 1, {x = nextXPosition, y = nextYPosition})
-        table.remove(self.snake_segments)
-
-        love.graphics.setColor(232 / 255, 213 / 255, 185 / 255)
-
-        table.insert(self.snake_segments, 1, {x = nextXPosition, y = nextYPosition})
-
-        if self.snake_segments[1].x == food_position.x
-        and self.snake_segments[1].y == food_position.y then
-            move_food()
-        else
-            table.remove(self.snake_segments)
-        end
-
-        local canMove = true
-
-        for segmentIndex, segment in ipairs(self.snake_segments) do
-            if segmentIndex ~= #self.snake_segments and nextXPosition == segment.x and nextYPosition == segment.y then
-                canMove = false
-            end
-        end
-
-        if canMove then
             table.insert(self.snake_segments, 1, {x = nextXPosition, y = nextYPosition})
-            if self.snake_segments[1].x == food_position.x and self.snake_segments[1].y == food_position.y then
-                moveFood()
-            else
-                table.remove(self.snake_segments)
+            table.remove(self.snake_segments)
+
+            local canMove = true
+
+            for segmentIndex, segment in ipairs(self.snake_segments) do
+                if segmentIndex ~= #self.snake_segments and nextXPosition == segment.x and nextYPosition == segment.y then
+                    canMove = false
+                end
             end
-        else
-            play:entered()
+
+            if canMove then
+                table.insert(self.snake_segments, 1, {x = nextXPosition, y = nextYPosition})
+                if self.snake_segments[1].x == food_position.x and self.snake_segments[1].y == food_position.y then
+                    move_food()
+                else
+                    table.remove(self.snake_segments)
+                end
+            else
+                snake_alive = false
+            end
         end
+    elseif self.timer >= 2 then
+        game:change_state("scoreboard")
     end
 end
 
