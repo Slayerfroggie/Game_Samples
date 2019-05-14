@@ -4,8 +4,8 @@ local settings = {
         help_text = love.graphics.newFont(20),
         menu = love.graphics.newFont(30),
         default = love.graphics.getFont(),
-        selection_change = love.audio.newSource("selection_changed.wav", "static"),
-        selection_confirmed = love.audio.newSource("selection_confirmed.wav", "static")
+        selection_change = love.audio.newSource("/sound/selection_changed.wav", "static"),
+        selection_confirmed = love.audio.newSource("/sound/selection_confirmed.wav", "static")
     },
     settings = {
         "Main Menu Sound [On]",
