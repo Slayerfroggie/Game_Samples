@@ -1,7 +1,9 @@
 local play = {
     assets = {
         score = love.graphics.newFont(20),
-        default = love.graphics.getFont()
+        default = love.graphics.getFont(),
+        player_eats = love.audio.newSource("/sound/player_eats.wav", "static"),
+        player_death = love.audio.newSource("/sound/player_death.wav", "static")
     },
     snake_segments = {},
     X_grid_count = 40,
@@ -9,7 +11,9 @@ local play = {
     direction_queue = {},
     difficulty = 2,
     timer = 0,
-    sound = true
+    sound = true,
+    food_counter_score = 0,
+    difficulty_limit = 0
 }
 
 function play:toggle_sound()
@@ -21,7 +25,10 @@ function play:toggle_difficulty()
     self.difficulty = self.difficulty + 1
     if self.difficulty > 3 then
         self.difficulty = 1
+
+        self.difficulty_limit = self.difficulty * 0.1
     end
+
     return self.difficulty
 end
 
@@ -59,15 +66,11 @@ function play:entered()
         self.direction_queue = {'right'}
         snake_alive = true
         self.timer = 0
+        self.food_counter_score = 0
         move_food()
     end
 
     reset()
-end
-
-function play:load()
-    
-
 end
 
 function play:draw()
@@ -103,7 +106,7 @@ function play:update(dt)
     self.timer = self.timer + dt
 
     if snake_alive then
-        local timerLimit = 0.15
+        local timerLimit = 0.1 --self.difficulty_limit
         if self.timer >= timerLimit then
             self.timer = self.timer - timerLimit
             if #self.direction_queue > 1 then
@@ -135,9 +138,6 @@ function play:update(dt)
                 end
             end
 
-            table.insert(self.snake_segments, 1, {x = nextXPosition, y = nextYPosition})
-            table.remove(self.snake_segments)
-
             local canMove = true
 
             for segmentIndex, segment in ipairs(self.snake_segments) do
@@ -149,15 +149,27 @@ function play:update(dt)
             if canMove then
                 table.insert(self.snake_segments, 1, {x = nextXPosition, y = nextYPosition})
                 if self.snake_segments[1].x == food_position.x and self.snake_segments[1].y == food_position.y then
+                    if self.sound then
+                        self.assets.player_eats:play()
+                    end
+
+                    self.food_counter_score = self.food_counter_score + 1
                     move_food()
                 else
                     table.remove(self.snake_segments)
                 end
             else
                 snake_alive = false
+                if self.sound then
+                    self.assets.player_death:play()
+                end
             end
         end
     elseif self.timer >= 2 then
+        
+        
+        game.states.scoreboard:add_score(self.food_counter_score)
+
         game:change_state("scoreboard")
     end
 end
