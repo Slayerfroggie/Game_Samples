@@ -4,7 +4,8 @@ local play = {
         default = love.graphics.getFont(),
         player_eats = love.audio.newSource("/sound/player_eats.wav", "static"),
         player_death = love.audio.newSource("/sound/player_death.wav", "static"),
-        food = love.graphics.newImage("/sprites/mouse.png")
+        food = love.graphics.newImage("/sprites/mouse.png"),
+        wall = love.graphics.newImage("/sprites/wall.png")
     },
     snake_segments = {},
     X_grid_count = 40,
@@ -77,7 +78,7 @@ function play:draw()
 
     local cell_size = 20
 
-    love.graphics.setColor(161 / 255, 209 / 255, 98 / 255)
+    love.graphics.setColor(25 / 255, 158 / 255, 123 / 255)
     love.graphics.rectangle('fill', 0, 0, self.X_grid_count * cell_size, self.Y_grid_count * cell_size)
 
     local function drawCell(x, y)
@@ -86,7 +87,7 @@ function play:draw()
 
     for segmentIndex, segment in ipairs(self.snake_segments) do
         if snake_alive then
-            love.graphics.setColor(25 / 255, 158 / 255, 123 / 255)
+            love.graphics.setColor(161 / 255, 209 / 255, 98 / 255)
         else
             love.graphics.setColor(.5, .5, .5)
         end
@@ -95,13 +96,13 @@ function play:draw()
     
     local function draw_food_cell(x, y)
         
-        --love.graphics.draw(self.assets.food, x, y)
+        --love.graphics.draw(self.assets.food, (x - 1) * cell_size, (y - 1) * cell_size, cell_size - 1, cell_size - 1)
 
         love.graphics.rectangle('fill', (x - 1) * cell_size, (y - 1) * cell_size, cell_size - 1, cell_size - 1)
         --love.graphics.scale(1)   
     end
     
-    love.graphics.setColor(.5, .5, .5)
+    love.graphics.setColor(62 / 255, 190 / 255, 155 / 255)
     draw_food_cell(food_position.x, food_position.y)
     --love.graphics.draw(self.assets.food, food_position.x + 20, food_position.y + 20)
 
