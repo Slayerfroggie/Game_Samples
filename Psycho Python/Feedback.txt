@@ -1,0 +1,5 @@
+feeback recieved 16/05/19
+Add a timer to game
+contrast menu items better(unselected items)
+add timer to scoreboard
+flesh out scoreboard better
