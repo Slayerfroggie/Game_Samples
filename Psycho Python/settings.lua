@@ -117,11 +117,11 @@ function settings:keypressed(key)
             end
         elseif self.selected_item == 4 then
             local difficulty = game.states.play:toggle_difficulty() 
-            if difficulty == 1 then
+            if difficulty == 3 then
                 self.settings[4] = "Difficulty [Easy]"
             elseif difficulty == 2 then
                 self.settings[4] = "Difficulty [Normal]"
-            elseif difficulty == 3 then
+            elseif difficulty == 1 then
                 self.settings[4] = "Difficulty [Hard]"
             end
         elseif self.selected_item == 5 then
