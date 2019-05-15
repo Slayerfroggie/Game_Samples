@@ -88,10 +88,11 @@ function scoreboard:draw()
     love.graphics.setColor(227 /255, 219 / 255, 64 / 255)
     love.graphics.setFont(self.assets.title)
     love.graphics.print("Scoreboard", scoreboard_x + 40, scoreboard_y + 20)
-    love.graphics.setFont(self.assets.default)
+    
 
     -- Draw help text
-    love.graphics.print("Return to menu: [SPACE] or [ESC]", scoreboard_x + 40, scoreboard_y + scoreboard_height - 30)
+    love.graphics.setFont(self.assets.menu)
+    love.graphics.print("Return to menu: [SPACE] or [ESC]", scoreboard_x + 40, scoreboard_y + scoreboard_height - 50)
 
     -- Draw menu text
     love.graphics.setFont(self.assets.help_text)
