@@ -12,6 +12,7 @@ local play = {
     Y_grid_count = 30,
     direction_queue = {},
     difficulty = 2,
+    game_timer_score = 0,
     timer = 0,
     timer_limit = 0,
     sound = true,
@@ -109,12 +110,15 @@ function play:draw()
     love.graphics.setColor(232 / 255, 213 / 255, 185 / 255)
     love.graphics.setFont(self.assets.score)
     love.graphics.print("Score:" .. self.food_counter_score, 50, 50)
+    love.graphics.print("Time:" .. self.game_timer_score, 650, 50)
     love.graphics.setFont(self.assets.default)
+    
 
     
 end
 
 function play:update(dt)
+    self.game_timer_score = self.game_timer_score + dt
     self.timer = self.timer + dt
 
     if snake_alive then
