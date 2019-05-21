@@ -192,22 +192,22 @@ function play:update(dt)
 end
 
 function play:keypressed(key)
-    if key == 'right'
+    if key == 'right' or key == 'd'
     and self.direction_queue[#self.direction_queue] ~= 'right'
     and self.direction_queue[#self.direction_queue] ~= 'left' then
         table.insert(self.direction_queue, 'right')
 
-    elseif key == 'left'
+    elseif key == 'left' or key == 'a'
     and self.direction_queue[#self.direction_queue] ~= 'left'
     and self.direction_queue[#self.direction_queue] ~= 'right' then
         table.insert(self.direction_queue, 'left')
 
-    elseif key == 'up'
+    elseif key == 'up' or key == 'w'
     and self.direction_queue[#self.direction_queue] ~= 'up'
     and self.direction_queue[#self.direction_queue] ~= 'down' then
         table.insert(self.direction_queue, 'up')
 
-    elseif key == 'down'
+    elseif key == 'down' or key == 's'
     and self.direction_queue[#self.direction_queue] ~= 'down'
     and self.direction_queue[#self.direction_queue] ~= 'up' then
         table.insert(self.direction_queue, 'down')
