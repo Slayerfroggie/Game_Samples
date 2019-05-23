@@ -52,7 +52,7 @@ function menu:draw()
 
     -- Draw help text
     love.graphics.setFont(self.assets.help_text)
-    love.graphics.print("Nagivate: [W] [S] / [UP] [DOWN] Select: [SPACE] / [ENTER]\n\nGame Movement: [W] [A] [S] [D] / Arrow Keys ", menu_x + 40, menu_y + menu_height - 90)
+    love.graphics.print("Nagivate: [UP] [DOWN] Select: [SPACE] / [ENTER]\n\nGame Movement: Arrow Keys ", menu_x + 40, menu_y + menu_height - 90)
     love.graphics.setFont(self.assets.default)
 
     -- draw menu text
@@ -72,7 +72,7 @@ function menu:draw()
 end
 
 function menu:keypressed(key)
-    if key == "w" or key == "up" then
+    if key == "up" then
         if self.sound then
             self.assets.selection_change:play()
         end
@@ -84,7 +84,7 @@ function menu:keypressed(key)
         end
     end
 
-    if key == "s" or key == "down" then
+    if key == "down" then
         if self.sound then
             self.assets.selection_change:play()
         end
