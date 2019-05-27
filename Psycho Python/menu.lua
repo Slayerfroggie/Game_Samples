@@ -4,6 +4,8 @@ local menu = {
         menu = love.graphics.newFont(30),
         help_text = love.graphics.newFont(20),
         default = love.graphics.getFont(),
+        selection_icon = love.graphics.newImage("/sprites/wall.png"),
+        background_image = love.graphics.newImage("/sprites/The_Psycho_Python.png"),
         selection_change = love.audio.newSource("/sound/selection_changed.wav", "static"),
         selection_confirmed = love.audio.newSource("/sound/selection_confirmed.wav", "static")
     },
@@ -55,6 +57,9 @@ function menu:draw()
     love.graphics.print("Nagivate: [UP] [DOWN] Select: [SPACE] / [ENTER]\n\nGame Movement: Arrow Keys ", menu_x + 40, menu_y + menu_height - 90)
     love.graphics.setFont(self.assets.default)
 
+    -- draw python
+    love.graphics.draw(self.assets.background_image, menu_x + 340, menu_y - 7)
+
     -- draw menu text
     love.graphics.setFont(self.assets.menu)
     for i, item in ipairs(self.items) do
@@ -62,6 +67,8 @@ function menu:draw()
 
         if i == self.selected_item then
             love.graphics.setColor(161 / 255, 209 / 255, 98 / 255)
+
+            love.graphics.draw(self.assets.selection_icon, item_x - 25, 33.5 * i + item_y )
         else
             love.graphics.setColor(25 / 255, 158 / 255, 123 / 255)
         end

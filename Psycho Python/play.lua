@@ -107,10 +107,10 @@ function play:draw()
     draw_food_cell(food_position.x, food_position.y)
     --love.graphics.draw(self.assets.food, food_position.x + 20, food_position.y + 20)
 
-    love.graphics.setColor(232 / 255, 213 / 255, 185 / 255)
+    love.graphics.setColor(227 /255, 219 / 255, 64 / 255)
     love.graphics.setFont(self.assets.score)
-    love.graphics.print("Score:" .. self.food_counter_score, 50, 50)
-    love.graphics.print("Time:" .. self.game_timer_score, 650, 50)
+    love.graphics.print("Score:" .. self.food_counter_score, 40, 40)
+    --love.graphics.print("Time:" .. self.game_timer_score, 40, 65)
     love.graphics.setFont(self.assets.default)
     
 
