@@ -21,7 +21,7 @@ local play = {
 }
 
 function play:toggle_sound()
-    self.sound = self.sound
+    self.sound = not self.sound
     return self.sound
 end
 
