@@ -4,7 +4,6 @@ local play = {
         default = love.graphics.getFont(),
         player_eats = love.audio.newSource("/sound/player_eats.wav", "static"),
         player_death = love.audio.newSource("/sound/player_death.wav", "static"),
-        food = love.graphics.newImage("/sprites/mouse.png"),
         wall = love.graphics.newImage("/sprites/wall.png")
     },
     snake_segments = {},
